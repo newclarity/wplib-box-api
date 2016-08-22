@@ -14,22 +14,13 @@ $app->get('/[{name}]', function ($request, $response, $args) {
 
 $app->group('/box', function() {
     $this->put('/processvm/{pvm}', function(Request $request, Response $response, $args) {
+
         $this->logger->info( "Switch process VM to {$args['pvm']}");
 
         $command = "set-cli-processvm-{$args['pvm']}";
 
-        $response = $response->withJson(['message' => 'Command not found', 'command' => $command], 500);
+        return $this->cli->process_command( $command, $response );
 
-        // add check for existent command
-        if (file_exists("/vagrant/scripts/guest/cli/commands/{$command}")) {
-            ob_start();
-            passthru("box {$command}");
-            $message = ob_get_clean();
-
-            $response = $response->withJson(['message' => $message, 'command' => $command], 200);
-        }
-
-        return $response;
     });
 
 });

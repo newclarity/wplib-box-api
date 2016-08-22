@@ -17,3 +17,8 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
 };
+
+// WPLIB_Box CLI interface
+$container['cli'] = function ($c) {
+    return new \WPLIB_Box\WPLIB_Box_CLI_Interface();
+};
