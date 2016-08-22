@@ -42,6 +42,18 @@ $app->group('/box', function() {
 
         });
 
+        $this->post('import/{db_file}', function(Request $request, Response $response, $args) {
+
+            $this->logger->info("Importing {$args['db_file']}");
+
+            $command = "import-db";
+
+            return $this->cli->process_command($command, $response, $args);
+
+        });
+
+    });
+
     });
 
     $this->put('/processvm/{pvm}', function(Request $request, Response $response, $args) {
