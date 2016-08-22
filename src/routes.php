@@ -22,6 +22,22 @@ $app->group('/box', function() {
             return $this->cli->process_command($command, $response);
 
         });
+
+    });
+
+    // Database group
+    $this->group('/database/', function() {
+
+        $this->post('backup/[{db_name}]', function(Request $request, Response $response, $args) {
+
+            $this->logger->info(sprintf('Backing up database%1$s', ! empty($args['db_name']) ? " {$args['db_name']}" : 'default' ) );
+
+            $command = 'backup-db';
+
+            return $this->cli->process_command( $command, $response );
+
+        });
+
     });
 
     $this->put('/processvm/{pvm}', function(Request $request, Response $response, $args) {
