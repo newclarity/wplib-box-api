@@ -54,13 +54,11 @@ $app->group('/box', function() {
 
     });
 
-    });
-
     $this->put('/processvm/{pvm}', function(Request $request, Response $response, $args) {
 
-        $this->logger->info( "Switch process VM to {$args['pvm']}");
+        $this->logger->info("Switch process VM to {$args['pvm']}");
 
-        $command = "set-cli-processvm-{$args['pvm']}";
+        $command = "set-processvm-{$args['pvm']}";
 
         return $this->cli->process_command($command, $response);
 
