@@ -62,7 +62,7 @@ $app->group('/box', function() {
 
         $command = "set-cli-processvm-{$args['pvm']}";
 
-        return $this->cli->process_command( $command, $response );
+        return $this->cli->process_command($command, $response);
 
     });
 
