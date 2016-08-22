@@ -54,6 +54,31 @@ $app->group('/box', function() {
 
     });
 
+    // Object cache group
+    $this->group('/object-cache', function() {
+
+        $this->put('/enable', function(Request $request, Response $response, $args) {
+
+            $this->logger->info("Enabling object cache for {$args['siteId']}");
+
+            $command = "enable-object-caching";
+
+            return $this->cli->process_command($command, $response);
+
+        });
+
+        $this->put('/disable', function(Request $request, Response $response, $args) {
+
+            $this->logger->info("Disabling object cache for {$args['siteId']}");
+
+            $command = "disable-object-caching";
+
+            return $this->cli->process_command($command, $response);
+
+        });
+
+    });
+
     $this->put('/processvm/{pvm}', function(Request $request, Response $response, $args) {
 
         $this->logger->info("Switch process VM to {$args['pvm']}");
