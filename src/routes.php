@@ -30,11 +30,9 @@ $app->group('/box', function() {
     });
 
     // Database group
-    $this->group('/database/', function() {
+    $this->group('/database', function() {
 
-        $this->post('backup/[{db_name}]', function(Request $request, Response $response, $args) {
-
-            $this->logger->info(sprintf('Backing up database%1$s', ! empty($args['db_name']) ? " {$args['db_name']}" : 'default' ) );
+        $this->post('/backup', function(Request $request, Response $response) {
 
             $command = 'backup-db';
 
@@ -42,7 +40,7 @@ $app->group('/box', function() {
 
         });
 
-        $this->post('import/{db_file}', function(Request $request, Response $response, $args) {
+        $this->post('/import/{db_file}', function(Request $request, Response $response, $args) {
 
             $this->logger->info("Importing {$args['db_file']}");
 
