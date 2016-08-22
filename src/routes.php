@@ -77,6 +77,21 @@ $app->group('/box', function() {
 
     });
 
+    // Plugins group
+    $this->group('/plugins/{plugin}', function() {
+
+        $this->put('/install', function(Request $request, Response $response, $args) {
+
+            $this->logger->info("Installing plugin {$args['plugin']}");
+
+            $command = "download-plugin";
+
+            return $this->cli->process_command($command, $response, $args);
+
+        });
+
+    });
+
     $this->put('/processvm/{pvm}', function(Request $request, Response $response, $args) {
 
         $this->logger->info("Switch process VM to {$args['pvm']}");
