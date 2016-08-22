@@ -13,8 +13,12 @@ $app->get('/[{name}]', function ($request, $response, $args) {
 });
 
 $app->group('/box', function() {
+
+    // Cache group
     $this->group('/cache', function() {
+
         $this->put('/flush', function(Request $request, Response $response) {
+
             $this->logger->info("Flush caches");
 
             $command = "cache-flush";
