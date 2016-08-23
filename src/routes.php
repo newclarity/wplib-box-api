@@ -52,6 +52,21 @@ $app->group('/box', function() {
 
     });
 
+    // File watchers group
+    $this->group('/file-watchers', function() {
+
+        $this->put('/enable', function(Request $request, Response $response) {
+
+            $this->logger->info('Enable file watchers');
+
+            $command = "enable-file-watchers";
+
+            return $this->cli->process_command($command, $response);
+
+        });
+
+    });
+
     // Object cache group
     $this->group('/object-cache', function() {
 
