@@ -1,0 +1,42 @@
+{
+  "box\/cache\/flush": {
+    "message": "Flush Caches",
+    "command": "cache-flush",
+    "method": "post"
+  },
+  "box\/database\/backup": {
+    "message": "Database Backup",
+    "command": "backup-db",
+    "method": "post"
+  },
+  "box\/database\/import\/{db_file}": {
+    "message": "Import database",
+    "command": "import-db",
+    "method": "post"
+  },
+  "box\/file-watchers\/enable": {
+    "message": "Enable file watchers",
+    "command": "enable-file-watchers",
+    "method": "put"
+  },
+  "box\/object-cache/enable": {
+    "message": "Enable object caching",
+    "command": "enable-object-caching",
+    "method": "put"
+  },
+  "box\/object-cache/disable": {
+    "message": "Disable object caching",
+    "command": "disable-object-caching",
+    "method": "put"
+  },
+  "box\/plugins\/{plugin}\/install": {
+    "message": "Install plugin",
+    "command": "download-plugin",
+    "method": "post"
+  },
+  "box\/processvm\/{pvm}": {
+    "message": "Switching box ProcessVM",
+    "command": "set-processvm",
+    "method": "post"
+  }
+}

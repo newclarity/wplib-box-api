@@ -12,112 +12,27 @@ use Psr\Http\Message\ResponseInterface as Response;
 //    return $this->renderer->render($response, 'index.phtml', $args);
 //});
 
-$app->group('/box', function() {
+$commands = [];
 
-    // Cache group
-    $this->group('/cache', function() {
+if (file_exists(__DIR__ . '/routes.json')) {
+    $commands = json_decode(file_get_contents(__DIR__ . '/routes.json'));
+}
 
-        $this->put('/flush', function(Request $request, Response $response) {
+foreach( $commands as $route => $params ) {
+    $message = $params->message;
+    $command = $params->command;
+    $method  = $params->method;
 
-            $this->logger->info("Flush caches");
+    $app->$method("/v1/{$route}", function(Request $request, Response $response, $args)
+    use ( $message, $command ) {
 
-            $command = "cache-flush";
+        $this->logger->info($message . implode(', ', $args));
 
-            return $this->cli->process_command($command, $response);
-
-        });
-
-    });
-
-    // Database group
-    $this->group('/database', function() {
-
-        $this->post('/backup', function(Request $request, Response $response) {
-
-            $command = 'backup-db';
-
-            return $this->cli->process_command( $command, $response );
-
-        });
-
-        $this->post('/import/{db_file}', function(Request $request, Response $response, $args) {
-
-            $this->logger->info("Importing {$args['db_file']}");
-
-            $command = "import-db";
-
-            return $this->cli->process_command($command, $response, $args);
-
-        });
+        return $this->cli->process_command($command, $response, $args);
 
     });
 
-    // File watchers group
-    $this->group('/file-watchers', function() {
-
-        $this->put('/enable', function(Request $request, Response $response) {
-
-            $this->logger->info('Enable file watchers');
-
-            $command = "enable-file-watchers";
-
-            return $this->cli->process_command($command, $response);
-
-        });
-
-    });
-
-    // Object cache group
-    $this->group('/object-cache', function() {
-
-        $this->put('/enable', function(Request $request, Response $response, $args) {
-
-            $this->logger->info("Enabling object cache for {$args['siteId']}");
-
-            $command = "enable-object-caching";
-
-            return $this->cli->process_command($command, $response);
-
-        });
-
-        $this->put('/disable', function(Request $request, Response $response, $args) {
-
-            $this->logger->info("Disabling object cache for {$args['siteId']}");
-
-            $command = "disable-object-caching";
-
-            return $this->cli->process_command($command, $response);
-
-        });
-
-    });
-
-    // Plugins group
-    $this->group('/plugins/{plugin}', function() {
-
-        $this->put('/install', function(Request $request, Response $response, $args) {
-
-            $this->logger->info("Installing plugin {$args['plugin']}");
-
-            $command = "download-plugin";
-
-            return $this->cli->process_command($command, $response, $args);
-
-        });
-
-    });
-
-    $this->put('/processvm/{pvm}', function(Request $request, Response $response, $args) {
-
-        $this->logger->info("Switch process VM to {$args['pvm']}");
-
-        $command = "set-processvm-{$args['pvm']}";
-
-        return $this->cli->process_command($command, $response);
-
-    });
-
-});
+}
 
 // Site endpoints
 $app->group('/sites', function() {
