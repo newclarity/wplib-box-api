@@ -10,7 +10,7 @@
     "method": "post"
   },
   "box\/database\/import\/{db_file}": {
-    "message": "Import database",
+    "message": "Import database file ",
     "command": "import-db",
     "method": "post"
   },
@@ -35,7 +35,7 @@
     "method": "post"
   },
   "box\/processvm\/{pvm}": {
-    "message": "Switching box ProcessVM",
+    "message": "Switching box ProcessVM to ",
     "command": "set-processvm",
     "method": "post"
   }
