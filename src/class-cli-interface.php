@@ -13,18 +13,23 @@ class WPLIB_Box_CLI_Interface {
      */
     function process_command($command, Response $response, $args =[])
     {
-        $response = $response->withJson(['message' => 'Command not found', 'command' => $command], 500);
+        $response = $response->withJson(['message' => 'Not implemented', 'command' => $command], 503);
 
         // add check for existent command
         if (file_exists("/vagrant/scripts/guest/cli/commands/{$command}")) {
+            $status = 500;
+
             foreach ($args as $arg) {
                 $command .= ' ' . $arg;
             }
-            ob_start();
-            passthru("box {$command}");
-            $message = ob_get_clean();
 
-            $response = $response->withJson(['message' => $message, 'command' => $command], 200);
+            exec("box {$command}", $message, $exitCode);
+
+            if(0 === $exitCode) {
+                $status = 200;
+            }
+
+            $response = $response->withJson(['message' => $message, 'command' => $command], $status);
         }
 
         return $response;
