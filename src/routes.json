@@ -37,6 +37,10 @@
   "box\/processvm\/{pvm}": {
     "message": "Switching box ProcessVM to ",
     "command": "set-processvm",
-    "method": "post"
+    "method": "put"
+  },
+  "box\/processvm": {
+    "command": "get-processvm",
+    "method": "get"
   }
 }
