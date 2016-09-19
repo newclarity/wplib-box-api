@@ -16,7 +16,7 @@ class WPLIB_Box_CLI_Interface {
         $response = $response->withJson(['message' => 'Not implemented', 'command' => $command], 503);
 
         // add check for existent command
-        if (file_exists("/vagrant/scripts/guest/cli/commands/{$command}")) {
+        if (file_exists("/boxx/cli/commands/{$command}")) {
             $status = 500;
 
             foreach ($args as $arg) {
