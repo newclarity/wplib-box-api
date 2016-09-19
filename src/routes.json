@@ -42,5 +42,13 @@
   "box\/processvm": {
     "command": "get-processvm",
     "method": "get"
+  },
+  "site/add": {
+    "command": "site-add",
+    "method": "post"
+  },
+  "site-delete": {
+    "command": "site-delete",
+    "method": "post"
   }
 }
