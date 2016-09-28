@@ -23,7 +23,7 @@ class WPLIB_Box_CLI_Interface {
                 $command .= ' ' . $arg;
             }
 
-            exec("box {$command}", $message, $exitCode);
+            exec("/boxx/cli/box {$command}", $message, $exitCode);
 
             if(0 === $exitCode) {
                 $status = 200;
