@@ -40,15 +40,28 @@
     "method": "put"
   },
   "box\/processvm": {
+    "message": "get processvm",
     "command": "get-processvm",
     "method": "get"
   },
-  "site/add": {
+  "site\/add": {
+    "message": "Adding site",
     "command": "site-add",
     "method": "post"
   },
-  "site-delete": {
+  "site\/{site_name}\/delete": {
+    "message": "Deleting site",
     "command": "site-delete",
     "method": "post"
+  },
+  "site\/{site_name}\/backup" : {
+    "message": "Backup site ",
+    "command": "site-backup",
+    "method": "post"
+  },
+  "sites" : {
+    "message": "Sites list",
+    "command": "sites-list",
+    "method": "get"
   }
 }
