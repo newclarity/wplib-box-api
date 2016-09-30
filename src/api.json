@@ -1,0 +1,67 @@
+{
+  "v1": {
+    "root_url": "http:\/\/api.wplib.box\/v1",
+    "commands": {
+      "flush-cache": {
+        "endpoint": "\/box\/cache\/flush",
+        "message": "Flush Caches",
+        "cliCommand": "cache-flush",
+        "method": "post"
+      },
+      "database-backup": {
+        "endpoint": "\/box\/database\/backup",
+        "message": "Database Backup",
+        "cliCommand": "backup-db",
+        "method": "post"
+      },
+      "database-import": {
+        "endpoint": "\/box\/database\/import\/{db_file}",
+        "message": "Import database file ",
+        "cliCommand": "import-db",
+        "method": "post"
+      },
+      "filewatchers-enable": {
+        "endpoint": "\/box\/file-watchers\/enable",
+        "message": "Enable file watchers",
+        "cliCommand": "enable-file-watchers",
+        "method": "put"
+      },
+      "project-object-cache-enable": {
+        "endpoint": "\/project\/{hostname}\/object-cache/enable",
+        "message": "Enable object caching",
+        "cliCommand": "enable-object-caching",
+        "method": "put"
+      },
+      "project-object-cache-disable": {
+        "endpoint": "\/project\/{hostname}\/object-cache/disable",
+        "message": "Disable object caching",
+        "cliCommand": "disable-object-caching",
+        "method": "put"
+      },
+      "project-add": {
+        "endpoint": "project\/add\/{hostname}",
+        "message": "Adding project",
+        "cliCommand": "site-add",
+        "method": "post"
+      },
+      "project-delete": {
+        "endpoint": "\/project\/{hostname}\/delete",
+        "message": "Deleting project",
+        "cliCommand": "site-delete",
+        "method": "post"
+      },
+      "project-backup": {
+        "endpoint": "\/project\/{hostname}\/backup",
+        "message": "Backup project ",
+        "cliCommand": "site-backup",
+        "method": "post"
+      },
+      "project-list": {
+        "endpoint": "\/projects",
+        "message": "Projects list",
+        "cliCommand": "sites-list",
+        "method": "get"
+      }
+    }
+  }
+}

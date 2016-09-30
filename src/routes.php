@@ -12,25 +12,38 @@ use Psr\Http\Message\ResponseInterface as Response;
 //    return $this->renderer->render($response, 'index.phtml', $args);
 //});
 
-$commands = [];
+if (file_exists(__DIR__ . '/api.json')) {
+    $api = json_decode(file_get_contents(__DIR__ . '/api.json'), true);
+    foreach ($api as $version) {
+        foreach ($version['commands'] as $command) {
+            $endpoint   = $command['endpoint'];
+            $message    = $command['message'];
+            $cliCommand = $command['cliCommand'];
+            $method     = $command['method'];
 
-if (file_exists(__DIR__ . '/routes.json')) {
-    $commands = json_decode(file_get_contents(__DIR__ . '/routes.json'));
+            $app->$method("{$endpoint}", function(Request $request, Response $response, $args)
+            use ( $message, $cliCommand ) {
+
+                $this->logger->info($message . implode(', ', $args));
+
+                return $this->cli->process_command($cliCommand, $response, $args);
+
+            });
+
+        }
+    }
+
 }
 
-foreach( $commands as $route => $params ) {
-    $message = $params->message;
-    $command = $params->command;
-    $method  = $params->method;
+$app->get('/api', function(Request $request, Response $response, $args) use($app) {
+    $api = json_decode(file_get_contents(__DIR__ . '/api.json'), true);
 
-    $app->$method("/v1/{$route}", function(Request $request, Response $response, $args)
-    use ( $message, $command ) {
-
-        $this->logger->info($message . implode(', ', $args));
-
-        return $this->cli->process_command($command, $response, $args);
-
+    array_walk($api, function(&$version) {
+        $rootUrl = $version['root_url'];
+        array_walk($version['commands'], function(&$command) use($rootUrl) {
+            $command['endpoint'] = $rootUrl . $command['endpoint'];
+        });
     });
 
-}
-
+    return json_encode($api);
+});
