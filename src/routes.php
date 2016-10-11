@@ -12,38 +12,20 @@ use Psr\Http\Message\ResponseInterface as Response;
 //    return $this->renderer->render($response, 'index.phtml', $args);
 //});
 
-if (file_exists(__DIR__ . '/api.json')) {
-    $api = json_decode(file_get_contents(__DIR__ . '/api.json'), true);
-    foreach ($api as $version) {
-        foreach ($version['commands'] as $command) {
-            $endpoint   = $command['endpoint'];
-            $message    = $command['message'];
-            $cliCommand = $command['cliCommand'];
-            $method     = $command['method'];
+$app->get('/', function(Request $request, Response $response, $args) {
+    return json_encode($this->api->discover());
+});
 
-            $app->$method("{$endpoint}", function(Request $request, Response $response, $args)
-            use ( $message, $cliCommand ) {
+$app->get('/v1', function(Request $request, Response $response, $args) {
 
-                $this->logger->info($message . implode(', ', $args));
+    $version = $this->api->version('v1');
+    $actions = $this->api->version('v1')->discovery();
 
-                return $this->cli->process_command($cliCommand, $response, $args);
+    return json_encode(array_map(function($action) use($version){
+        return [
+            'endpoint' => $version->endpoint . $action->endpoint,
+            'method'   => $action->method,
+        ];
+    }, $actions));
 
-            });
-
-        }
-    }
-
-}
-
-$app->get('/api', function(Request $request, Response $response, $args) use($app) {
-    $api = json_decode(file_get_contents(__DIR__ . '/api.json'), true);
-
-    array_walk($api, function(&$version) {
-        $rootUrl = $version['root_url'];
-        array_walk($version['commands'], function(&$command) use($rootUrl) {
-            $command['endpoint'] = $rootUrl . $command['endpoint'];
-        });
-    });
-
-    return json_encode($api);
 });

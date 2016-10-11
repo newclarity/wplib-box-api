@@ -18,7 +18,8 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
-// WPLIB_Box CLI interface
-$container['cli'] = function ($c) {
-    return new \WPLIB_Box\WPLIB_Box_CLI_Interface();
+// PressBoxx API interface
+$container['api'] = function ($c) use($app){
+    $api = new \PressBoxx\API($app);
+    return $api;
 };

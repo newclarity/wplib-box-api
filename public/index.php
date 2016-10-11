@@ -11,6 +11,9 @@ if (PHP_SAPI == 'cli-server') {
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../src/class-cli-interface.php';
+require __DIR__ . '/../src/class-route.php';
+require __DIR__ . '/../src/class-apiNamespace.php';
+require __DIR__ . '/../src/class-api.php';
 
 session_start();
 
@@ -37,6 +40,8 @@ require __DIR__ . '/../src/middleware.php';
 
 // Register routes
 require __DIR__ . '/../src/routes.php';
+
+$app->getContainer()->get('api')->register();
 
 // Run app
 $app->run();
