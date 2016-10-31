@@ -1,59 +1,43 @@
 {
-  "namespaces": {
-    "v1": {
-      "routes": {
-        "cache": {
-          "methods": {
-            "delete": {
-              "command": "cache-flush",
-              "message": "Flush Caches"
-            }
+  "v1": {
+    "root_url": "http:\/\/api.wplib.box\/v1",
+    "commands": {
+      "project-list": {
+        "endpoint": "\/projects",
+        "methods": {
+          "get": {
+            "cliCommand": "projects-list",
+            "message": "Projects list"
+          },
+          "post": {
+            "cliCommand": "project-add",
+            "message": "Add project"
           }
-        },
-        "projects": {
-          "methods": {
-            "get": {
-              "command": "sites-list",
-              "message": "Projects List"
-            }
+        }
+      },
+      "project-info": {
+        "endpoint": "\/projects\/{hostname}",
+        "methods": {
+          "get": {
+            "cliCommand": "project-info",
+            "message": "Project Info"
+          },
+          "put": {
+            "cliCommand": "project-archive",
+            "message": "Archive project"
+          },
+          "delete": {
+            "cliCommand": "project-delete",
+            "message": "Deleting project"
           }
-        },
-        "project\/{hostname}": {
-          "message": "Adding project",
-          "methods": {
-            "get": {
-              "command": "site-info",
-              "message": "Site Resource"
-            },
-            "post": {
-              "command": "site-add",
-              "message": "Add site"
-            },
-            "delete": {
-              "command": "site-delete",
-              "message": "Delete Site"
-            }
-          }
-        },
-        "project\/{hostname}\/object-cache": {
-          "methods": {
-            "post": {
-              "command": "enable-object-caching",
-              "message": "Enable object caching"
-            },
-            "delete": {
-              "command": "disable-object-caching",
-              "message": "Disable object caching"
-            }
-          }
-        },
-        "project\/{hostname}\/backup": {
-          "command": "site-backup",
-          "methods": {
-            "post": {
-              "command": "site-backup",
-              "message": "Backup project"
-            }
+        }
+      },
+      "project-update": {
+        "endpoint": "\/projects\/{hostname}\/{property}",
+        "methods": {
+          "patch": {
+            "cliCommand": "project-update",
+            "message": "Update project"
           }
         }
       }
