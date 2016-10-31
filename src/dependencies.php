@@ -23,3 +23,7 @@ $container['api'] = function ($c) use($app){
     $api = new \PressBoxx\API($app);
     return $api;
 };
+
+$container['cli'] = function($c) use($app){
+    return new \WPLIB_Box\WPLIB_Box_CLI_Interface();
+};
