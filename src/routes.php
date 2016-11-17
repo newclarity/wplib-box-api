@@ -46,12 +46,51 @@ function register_methods($app, $command) {
 function register_method($app, $route, $method, $params) {
     $app->$method("{$route}", function (Request $request, Response $response, $args)
     use ($params) {
+        $args = array_merge($args, parse_params($params['parameters']));
 
         $this->logger->info($params['message'] . implode(', ', $args));
 
-        return $this->cli->process_command($params['cliCommand'], $response, $args);
-
+        if (verify_params($params['parameters'], $args)) {
+            $results = $this->cli->process_command($params['cliCommand'], $response, $args);
+        }
+        return $results;
     });
+}
+
+/**
+ * @param  array $params
+ * @return array
+ */
+function parse_params($params) {
+
+    parse_str(file_get_contents('php://input'), $data);
+
+    foreach($params as $key => $param) {
+        if (empty($data[$key])) {
+            $data[$key] = $param['default'];
+        }
+    }
+
+    return $data;
+}
+
+/**
+ * Verify that all required parameters are present in the args.
+ *
+ * @param  array $params
+ * @param  array $args
+ * @return bool
+ */
+function verify_params($params, $args) {
+    $return = true;
+
+    foreach($params as $key => $param) {
+        if (true == $param['required'] && ! array_key_exists($key, $args)) {
+            $return = false;
+        }
+    }
+
+    return $return;
 }
 
 $app->get('/v1', function(Request $request, Response $response, $args) {

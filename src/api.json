@@ -8,27 +8,42 @@
           "get": {
             "cliCommand": "projects-list",
             "message": "Projects list"
-          },
-          "post": {
-            "cliCommand": "project-add",
-            "message": "Add project"
           }
         }
       },
       "project-info": {
-        "endpoint": "\/projects\/{hostname}",
+        "endpoint": "\/projects\/{hostname}[\/{property}]",
         "methods": {
           "get": {
             "cliCommand": "project-info",
             "message": "Project Info"
           },
+          "post": {
+            "cliCommand": "project-add",
+            "message": "Add project"
+          },
           "put": {
             "cliCommand": "project-archive",
-            "message": "Archive project"
+            "message": "Archive project",
+            "parameters": {
+              "status" : {
+                "required" : true,
+                "accepted" : ["active", "archived"]
+              },
+              "hostname" : {
+                "rename": "new-hostname"
+              }
+            }
           },
           "delete": {
             "cliCommand": "project-delete",
-            "message": "Deleting project"
+            "message": "Deleting project",
+            "parameters": {
+              "archive": {
+                "default": true,
+                "required": false
+              }
+            }
           }
         }
       },
@@ -37,7 +52,41 @@
         "methods": {
           "patch": {
             "cliCommand": "project-update",
-            "message": "Update project"
+            "message": "Update project",
+            "parameters": {
+              "value": {
+                "required": true,
+                "default": ""
+              }
+            }
+          }
+        }
+      },
+      "release": {
+        "endpoint": "\/release",
+        "methods": {
+          "get": {
+            "cliCommand": "release",
+            "message": "Release info"
+          }
+        }
+      },
+      "config": {
+        "endpoint": "\/config[\/{property}]",
+        "methods": {
+          "get": {
+            "cliCommand": "config",
+            "message": "Configuration Information"
+          },
+          "put": {
+            "cliCommand": "config-update",
+            "message": "Update configuration",
+            "parameters": {
+              "value": {
+                "required": true,
+                "default": ""
+              }
+            }
           }
         }
       }

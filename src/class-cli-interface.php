@@ -19,17 +19,18 @@ class WPLIB_Box_CLI_Interface {
         if (file_exists("/boxx/cli/commands/{$command}")) {
             $status = 500;
 
-            foreach ($args as $arg) {
-                $command .= ' ' . $arg;
+            foreach ($args as $key => $arg) {
+                $command .= sprintf(' --%1$s %2$s', $key, $arg);
             }
 
-            exec("/boxx/cli/box {$command} --quiet", $message, $exitCode);
+            exec("/boxx/cli/box {$command} --json", $message, $exitCode);
 
             if(0 === $exitCode) {
                 $status = 200;
             }
 
-            $response = $response->withJson(['status' => 'success', 'data' => json_decode($this->process_response($message))], $status);
+            $message  = $this->process_response($message);
+            $response = $response->withJson(['status' => 'success', 'data' => json_decode($message)], $status);
         }
 
         return $response;

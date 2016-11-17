@@ -61,7 +61,7 @@ class API {
         $this->_default_route = new Route( '/', ['endpoint' => '/', 'methods' => ['get' => [],]]);
 
         if (file_exists(__DIR__ . '/api.json')) {
-            $this->_namespaces = json_decode(file_get_contents(__DIR__ . '/api.json'), true)['namespaces'];
+            $this->_namespaces = json_decode(file_get_contents(__DIR__ . '/api.json'), true);
         }
 
         array_walk($this->_namespaces, function(&$params, $version){
